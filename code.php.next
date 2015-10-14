@@ -1,0 +1,7 @@
+<?php
+
+($a, $b) => {
+    if ($foo) {
+        if ($bar) { echo "ok"; }
+    }
+};
