@@ -42,23 +42,25 @@ class Transpiler implements \Hoa\Visitor\Visit
                     $args[] = $value['value'];
                 }
 
-                $code .= implode(', ', $args) . ') {' . PHP_EOL;
-
-                static::$level++;
+                $code .= implode(', ', $args) . ') {';
                 break;
 
             case '#body':
                 foreach ($element->getChildren() as $child) {
-                    if ($child->getValue()['token'] == 'T_RIGHT_CURLY') {
-                        static::$level--;
-                    }
-
-                    $code .= str_repeat("\t", static::$level) . $child->getValue()['value'] . PHP_EOL;
-
-                    if ($child->getValue()['token'] == 'T_LEFT_CURLY') {
-                        static::$level++;
-                    }
+                    $code .= $child->accept($this, $handle, $eldnah);
                 }
+                break;
+
+            case '#oneline':
+                $code .= 'return ';
+
+                foreach ($element->getChildren() as $child) {
+                    $code .= $child->accept($this, $handle, $eldnah);
+                }
+                break;
+
+            default:
+                $code .= $element->getValue()['value'];
                 break;
         }
 

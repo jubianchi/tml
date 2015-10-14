@@ -6,10 +6,10 @@ $a => {
     }
 };
 
-$b => echo "ok";
+$b => $b * 2;
 
-($a, $b) => {
-    if ($foo) {
-        if ($bar) { echo "ok"; }
+($c, $d) => {
+    if ($c) {
+        if ($d) { echo "ok"; }
     }
 };

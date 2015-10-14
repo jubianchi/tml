@@ -20,13 +20,19 @@
     ::T_OPEN_TAG:: function()+ ::T_CLOSE_TAG::?
 
 #function:
-    arguments() ::T_ARROW:: body() ::T_SEMI_COLON::+
+    arguments() ::T_ARROW:: body() <T_SEMI_COLON>+
 
 #arguments:
     <T_VAR> | ::T_LEFT_PAREN:: <T_VAR> ( ::T_COMMA:: <T_VAR> )* ::T_RIGHT_PAREN::
 
 #body:
-    <T_CODE> | ::T_LEFT_CURLY:: code() ::T_RIGHT_CURLY::
+    ::T_LEFT_CURLY:: loc() ::T_RIGHT_CURLY:: | oneline()
 
-code:
-    <T_CODE> ::T_SEMI_COLON::* ( <T_LEFT_CURLY> code() <T_RIGHT_CURLY> )*
+#oneline:
+    loc()
+
+loc:
+    expr() ( ( <T_LEFT_CURLY> loc() <T_RIGHT_CURLY> )* | <T_SEMI_COLON>+ )
+
+expr:
+    <T_VAR>* <T_CODE>* <T_VAR>*
