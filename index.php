@@ -25,10 +25,6 @@ class Transpiler implements \Hoa\Visitor\Visit
                 foreach ($element->getChildren() as $child) {
                     $code .= $child->accept($this, $handle, $eldnah);
                 }
-
-                $code .= '};' . PHP_EOL;
-
-                static::$level--;
                 break;
 
             case '#arguments':
@@ -42,25 +38,57 @@ class Transpiler implements \Hoa\Visitor\Visit
                     $args[] = $value['value'];
                 }
 
-                $code .= implode(', ', $args) . ') {';
+                $code .= implode(', ', $args) . ') ';
                 break;
 
             case '#body':
+                $code .= '{' . PHP_EOL;
+
+                static::$level++;
+
                 foreach ($element->getChildren() as $child) {
                     $code .= $child->accept($this, $handle, $eldnah);
                 }
+
+                static::$level--;
+
+                $code .= '};' . PHP_EOL;
                 break;
 
             case '#oneline':
-                $code .= 'return ';
+                $code .= "\t" . 'return ';
 
                 foreach ($element->getChildren() as $child) {
                     $code .= $child->accept($this, $handle, $eldnah);
                 }
+
+                $code .= ';' . PHP_EOL;
                 break;
 
             default:
-                $code .= $element->getValue()['value'];
+                $value = $element->getValue();
+
+                switch ($value['token']) {
+                    case 'T_RIGHT_CURLY':
+                        static::$level--;
+
+                        $code .= str_repeat("\t", static::$level) . $value['value'] . PHP_EOL;
+                        break;
+
+                    case 'T_LEFT_CURLY':
+                        $code .= $value['value'] . PHP_EOL;
+
+                        static::$level++;
+                        break;
+
+                    case 'T_SEMI_COLON':
+                        $code .= $value['value'] . PHP_EOL;
+                        break;
+
+                    default:
+                        $code .= str_repeat("\t", static::$level) . $value['value'];
+                }
+
                 break;
         }
 

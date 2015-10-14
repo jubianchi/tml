@@ -20,7 +20,7 @@
     ::T_OPEN_TAG:: function()+ ::T_CLOSE_TAG::?
 
 #function:
-    arguments() ::T_ARROW:: body() <T_SEMI_COLON>+
+    arguments() ::T_ARROW:: body() ::T_SEMI_COLON::+
 
 #arguments:
     <T_VAR> | ::T_LEFT_PAREN:: <T_VAR> ( ::T_COMMA:: <T_VAR> )* ::T_RIGHT_PAREN::
