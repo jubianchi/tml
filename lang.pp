@@ -16,10 +16,10 @@
 
 %token      T_CODE                  [^;{}]+
 
-php:
+#php:
     ::T_OPEN_TAG:: function()+ ::T_CLOSE_TAG::?
 
-function:
+#function:
     arguments() ::T_ARROW:: body() ::T_SEMI_COLON::+
 
 #arguments:
