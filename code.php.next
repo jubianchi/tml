@@ -1,5 +1,13 @@
 <?php
 
+$a => {
+    if ($foo) {
+        if ($bar) { echo "ok"; }
+    }
+};
+
+$b => echo "ok";
+
 ($a, $b) => {
     if ($foo) {
         if ($bar) { echo "ok"; }

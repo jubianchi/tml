@@ -20,16 +20,10 @@ php:
     ::T_OPEN_TAG:: function()+ ::T_CLOSE_TAG::?
 
 function:
-    argument_list() ::T_ARROW:: body() ::T_SEMI_COLON::+
+    arguments() ::T_ARROW:: body() ::T_SEMI_COLON::+
 
-#argument_list:
-    argument() | arguments()
-
-arguments:
-    argument() | ::T_LEFT_PAREN:: argument() ( ::T_COMMA:: argument() )* ::T_RIGHT_PAREN::
-
-argument:
-    <T_VAR>
+#arguments:
+    <T_VAR> | ::T_LEFT_PAREN:: <T_VAR> ( ::T_COMMA:: <T_VAR> )* ::T_RIGHT_PAREN::
 
 #body:
     <T_CODE> | ::T_LEFT_CURLY:: code() ::T_RIGHT_CURLY::
