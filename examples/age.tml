@@ -2,5 +2,5 @@
 @trois égal @neuf divisé par 3
 @mon_age égal @trois multiplié par 10
 
-affiche(J'ai, @mon_age, ans 😅)
+.affiche(J'ai, @mon_age, ans 😅)
 

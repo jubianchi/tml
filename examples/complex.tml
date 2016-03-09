@@ -1,4 +1,4 @@
 @neuf égal 4 plus 5
 
-affiche(neuf, @neuf, 4 plus 5)
+.affiche(neuf, @neuf, 4 plus 5)
 
