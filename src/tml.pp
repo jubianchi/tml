@@ -14,7 +14,7 @@
 %token      T_CLOSE_PAREN           \)
 %token      T_COMMA                 ,
 
-%token      T_CHAR                  .++
+%token      T_CHAR                  .
 
 #tml:
     ( fn() | expr() | assign() )+
@@ -29,7 +29,7 @@
     <T_FN> ::T_OPEN_PAREN:: arguments() ::T_CLOSE_PAREN::
 
 #str:
-    <T_CHAR>
+    <T_CHAR>+
 
 #rvar:
     <T_VAR>

@@ -1,0 +1,22 @@
+{
+  "name": "compiler-sandbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gist.github.com/22ef9a918c4a32547770.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gist.github.com/22ef9a918c4a32547770"
+  },
+  "homepage": "https://gist.github.com/22ef9a918c4a32547770",
+  "dependencies": {
+    "viz.js": "^1.3.0"
+  }
+}
