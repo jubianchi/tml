@@ -1,13 +1,21 @@
 {
     "name": "jubianchi/compiler-sandbox",
     "require": {
-        "hoa/compiler": "2.15.08.25",
-        "hoa/cli": "^1.15"
+        "hoa/compiler": "*",
+        "hoa/cli": "*"
     },
     "authors": [
         {
             "name": "jubianchi",
             "email": "contact@jubianchi.fr"
         }
-    ]
+    ],
+    "config": {
+        "bin-dir": "bin/"
+    },
+    "autoload": {
+        "psr-4": {
+            "jubianchi\\TML\\": "src/"
+        }
+    }
 }

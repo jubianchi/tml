@@ -1,0 +1,93 @@
+#!/usr/bin/env php -n
+<?php
+
+use jubianchi\TML;
+use Hoa\Compiler;
+use Hoa\Console;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$compiler = Compiler\Llk\Llk::load(new Hoa\File\Read(__DIR__ . '/../src/tml.pp'));
+$arg = $_SERVER['argv'][1];
+
+if ($arg != '') {
+    $ast = $compiler->parse(file_get_contents($_SERVER['argv'][1]));
+    $visitor = new TML\Visitor\TML();
+
+    $time = $visitor->visit($ast);
+
+    printf(PHP_EOL . '-------------' . PHP_EOL . 'Time: %.4fs' . PHP_EOL, $time);
+} else {
+    $stop = false;
+    $visitor = new TML\Visitor\TML();
+    $rl = new Console\Readline\Readline();
+    $rl->addMapping('\C-D', function($rl) use (& $stop) {
+        $stop = true;
+
+        echo 'quit' . PHP_EOL;
+
+        return $rl::STATE_BREAK;
+    });
+    $rl->addMapping('\C-L', function($rl) {
+        \Hoa\Console\Cursor::clear('↕');
+
+        return $rl::STATE_BREAK;
+    });
+
+    echo PHP_EOL . '---------------------------------------------';
+    echo PHP_EOL . "Use \033[33m&<file path>\033[0m to import and execute a file";
+    echo PHP_EOL . "Use \033[33m?<tml>\033[0m to see the produced AST";
+    echo PHP_EOL . '---------------------------------------------';
+    echo PHP_EOL . PHP_EOL;
+
+    do {
+        $line = trim($rl->readLine('> '));
+
+        if ($line === '') {
+            continue;
+        }
+
+        ob_start();
+        $start = microtime(true);
+        if (preg_match('/^&.*$/', $line)) {
+            $filepath = ltrim($line, '&');
+
+            if (file_exists($filepath) === false) {
+                $line = '';
+                echo "\033[1;31mFile $filepath does not exist\033[0m" . PHP_EOL;
+            } else {
+                $line = file_get_contents($filepath);
+            }
+        }
+
+        try {
+            if (preg_match('/^\?.*$/', $line)) {
+                $line = ltrim($line, '?');
+                $visitor = new Hoa\Compiler\Visitor\Dump();
+
+                echo $visitor->visit($compiler->parse($line));
+                $line = '';
+            }
+
+            if ($line !== '') {
+                $visitor->visit($compiler->parse($line));
+            }
+        } catch(\Exception $e) {
+            foreach (explode(PHP_EOL, $e->getMessage()) as $line) {
+                echo "\033[1;31m" . $line . "\033[0m" . PHP_EOL;
+            }
+
+            continue;
+        } finally {
+            $buffer = trim(ob_get_clean());
+
+            if ($buffer !== '') {
+                foreach (explode(PHP_EOL, $buffer) as $line) {
+                    echo '<(' . sprintf('%.4fs', microtime(true) - $start) . ') ' . $line . PHP_EOL;
+                }
+            }
+        }
+    } while (false !== $line && 'quit' !== $line && $stop === false);
+}
+
+
