@@ -1,1 +1,10 @@
-.var_dump(3 plus -5, bar, foo)
+.var_dump(3 plus -5, "bar, \"foo")
+.var_dump(-86
+
+ divisé par
+  -88
+multiplié par    -6     moins
+
+  -6 multiplié par
+                           
+                           -5)

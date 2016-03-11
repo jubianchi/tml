@@ -1,6 +1,7 @@
 {
     "name": "jubianchi/compiler-sandbox",
     "require": {
+        "php": "^7.0",
         "hoa/compiler": "*",
         "hoa/cli": "*",
         "hoa/console": "*"
@@ -18,5 +19,13 @@
         "psr-4": {
             "jubianchi\\TML\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "jubianhi\\TML\\Tests\\Units\\": "tests/units/"
+        }
+    },
+    "require-dev": {
+        "atoum/atoum": "*"
     }
 }

@@ -7,11 +7,15 @@ use Hoa\Console;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$compiler = Compiler\Llk\Llk::load(new Hoa\File\Read(__DIR__ . '/../src/tml.pp'));
+if (file_exists('tml.cache') === false || !($parser = unserialize(file_get_contents('tml.cache')))) {
+    $parser = (new TML\Grammar())->buildParser();
+    file_put_contents('tml.cache', serialize($parser));
+}
+
 $arg = $_SERVER['argv'][1];
 
 if ($arg != '') {
-    $ast = $compiler->parse(file_get_contents($_SERVER['argv'][1]));
+    $ast = $parser->parse(file_get_contents($_SERVER['argv'][1]));
     $visitor = new TML\Visitor\TML();
 
     $time = $visitor->visit($ast);
@@ -65,12 +69,12 @@ if ($arg != '') {
                 $line = ltrim($line, '?');
                 $visitor = new Hoa\Compiler\Visitor\Dump();
 
-                echo $visitor->visit($compiler->parse($line));
+                echo $visitor->visit($parser->parse($line));
                 $line = '';
             }
 
             if ($line !== '') {
-                $visitor->visit($compiler->parse($line));
+                $visitor->visit($parser->parse($line));
             }
         } catch(\Exception $e) {
             foreach (explode(PHP_EOL, $e->getMessage()) as $line) {

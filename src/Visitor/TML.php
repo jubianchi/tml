@@ -9,14 +9,12 @@ class TML extends Visitor
 {
     public function visit(Element $element, &$handle = null, $eldnah = null)
     {
-        $start = microtime(true);
-
         switch ($element->getId()) {
             case '#tml':
                 foreach ($element->getChildren() as $child) {
                     $child->accept($this, $handle, $eldnah) . PHP_EOL;
                 }
-                return microtime(true) - $start;
+                return;
 
             case '#assign':
                 $visitor = new Node\Assign();
@@ -43,7 +41,7 @@ class TML extends Visitor
                 break;
 
             default:
-                return microtime(true) - $start;
+                return;
         }
 
         return $element->accept(

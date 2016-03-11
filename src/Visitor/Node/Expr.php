@@ -28,18 +28,29 @@ class Expr extends Visitor
                 case 'T_OP_MINUS':
                 case 'T_OP_MULTI':
                 case 'T_OP_DIVIDE':
+                    $t[] = $child->getValue();
                     $expr .= self::OPERATORS[$child->getValueToken()];
                     break;
 
                 default:
-                    $expr .= $child->accept(
+                    $result = $child->accept(
                         (new Visitor\TML())->setVariables($this->variables),
                         $handle,
                         $eldnah
                     );
+
+                    $expr .= ($result < 0 ? '(' . $result . ')' : $result);
             }
         }
 
-        return eval('return ' . $expr . ';');
+        set_error_handler(function() use ($expr) {
+            throw new \LogicException(error_get_last()['message']);
+        });
+
+        $result = eval('return ' . $expr . ';');
+
+        restore_error_handler();
+
+        return $result;
     }
 }
