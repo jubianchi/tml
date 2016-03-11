@@ -1,3 +1,5 @@
+# TML - Ten Minutes Language [![Build Status](https://travis-ci.org/jubianchi/tml.svg?branch=master)](https://travis-ci.org/jubianchi/tml)
+
 ![slides.001](slides/slides.001.png)
 
 ![slides.002](slides/slides.002.png)
