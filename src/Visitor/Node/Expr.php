@@ -38,6 +38,10 @@ class Expr extends Visitor
                         $eldnah
                     );
 
+                    if ($child->getId() === '#rvar' && is_numeric($result) === false) {
+                        throw new \LogicException('Unexpected operand ' . $child->getChild(0)->getValueValue() . ' with type ' . gettype($result) . ': ' . var_export($result, true));
+                    }
+
                     $expr .= ($result < 0 ? '(' . $result . ')' : $result);
             }
         }
