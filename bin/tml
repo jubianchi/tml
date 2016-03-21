@@ -15,7 +15,14 @@ if (file_exists('tml.cache') === false || !($parser = unserialize(file_get_conte
 $arg = $_SERVER['argv'][1];
 
 if ($arg != '') {
-    $ast = $parser->parse(file_get_contents($_SERVER['argv'][1]));
+    if ($arg === '-f') {
+        array_shift($_SERVER['argv']);
+        $code = file_get_contents($_SERVER['argv'][1]);
+    } else {
+        $code = $_SERVER['argv'][1];
+    }
+
+    $ast = $parser->parse($code);
     $visitor = new TML\Visitor\TML();
 
     $time = $visitor->visit($ast);
