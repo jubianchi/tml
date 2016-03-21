@@ -28,7 +28,6 @@ class Expr extends Visitor
                 case 'T_OP_MINUS':
                 case 'T_OP_MULTI':
                 case 'T_OP_DIVIDE':
-                    $t[] = $child->getValue();
                     $expr .= self::OPERATORS[$child->getValueToken()];
                     break;
 
