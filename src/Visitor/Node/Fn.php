@@ -50,8 +50,4 @@ class Fn extends Visitor
 
         return $this->{$name}(...$arguments);
     }
-
-    private function affiche(...$values) {
-        echo implode(' ', $values) . PHP_EOL;
-    }
 }

@@ -12,7 +12,7 @@ class TML extends Visitor
         switch ($element->getId()) {
             case '#tml':
                 foreach ($element->getChildren() as $child) {
-                    $child->accept($this, $handle, $eldnah) . PHP_EOL;
+                    $child->accept($this, $handle, $eldnah);
                 }
                 return;
 

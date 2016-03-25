@@ -1,1 +1,1 @@
-.affiche("J'ai", @mon_age, "ans 😅")
+.var_dump("J'ai", @mon_age, "ans 😅")

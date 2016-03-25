@@ -22,15 +22,9 @@ if ($arg != '') {
         $code = $_SERVER['argv'][1];
     }
 
-    $ast = $parser->parse($code);
-    $visitor = new TML\Visitor\TML();
-
-    $time = $visitor->visit($ast);
-
-    printf(PHP_EOL . '-------------' . PHP_EOL . 'Time: %.4fs' . PHP_EOL, $time);
+    eval($parser->parse($code)->accept(new TML\Visitor\TML()));
 } else {
     $stop = false;
-    $visitor = new TML\Visitor\TML();
     $rl = new Console\Readline\Readline();
     $rl->addMapping('\C-D', function($rl) use (& $stop) {
         $stop = true;
@@ -74,14 +68,13 @@ if ($arg != '') {
         try {
             if (preg_match('/^\?.*$/', $line)) {
                 $line = ltrim($line, '?');
-                $visitor = new Hoa\Compiler\Visitor\Dump();
 
-                echo $visitor->visit($parser->parse($line));
+                echo $parser->parse($line)->accept(new Hoa\Compiler\Visitor\Dump());
                 $line = '';
             }
 
             if ($line !== '') {
-                $visitor->visit($parser->parse($line));
+                $parser->parse($line)->accept(new TML\Visitor\TML());
             }
         } catch(\Exception $e) {
             foreach (explode(PHP_EOL, $e->getMessage()) as $line) {
