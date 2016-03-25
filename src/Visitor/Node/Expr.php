@@ -24,6 +24,16 @@ class Expr extends Visitor
                     $expr .= $child->getValueValue();
                     break;
 
+                case 'T_CONST':
+                    $name = $child->getValueValue();
+
+                    if (defined($name) === false) {
+                        throw new \LogicException('Undefined constant ' . $name);
+                    }
+
+                    $expr .= constant($name);
+                    break;
+
                 case 'T_OP_PLUS':
                 case 'T_OP_MINUS':
                 case 'T_OP_MULTI':

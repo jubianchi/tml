@@ -19,6 +19,16 @@ class Fn extends Visitor
                     $arguments[] = $child->getValue()['value'];
                     break;
 
+                case 'T_CONST':
+                    $name = $child->getValueValue();
+
+                    if (defined($name) === false) {
+                        throw new \LogicException('Undefined constant ' . $name);
+                    }
+
+                    $arguments[] = constant($name);
+                    break;
+
                 default:
                     $arguments[] = $child->accept(
                         (new Visitor\TML())->setVariables($this->variables),

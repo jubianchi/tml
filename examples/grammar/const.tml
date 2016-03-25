@@ -1,0 +1,4 @@
+.var_dump(PHP_INT_MAX)
+.var_dump(PHP_INT_MAX moins 1)
+.var_dump(.abs(PHP_INT_MAX) moins 1)
+.var_dump(@PHP_INT_MAX)

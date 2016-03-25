@@ -2,5 +2,5 @@
 @trois égal @neuf divisé par 3
 @mon_age égal @trois multiplié par 10
 
-.affiche("J'ai", @mon_age, "ans 😅")
+.printf("J'ai %s ans 😅%s", @mon_age, PHP_EOL)
 

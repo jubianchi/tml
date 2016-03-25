@@ -8,6 +8,7 @@
 
 %token             T_FN                    \.[a-zA-Z_][a-zA-Z0-9_]*
 %token             T_VAR                   @[a-zA-Z_][a-zA-Z0-9_]*
+%token             T_CONST                 [A-Z_][A-Z0-9_]*
 %token             T_NUMBER                \-?[1-9][0-9]*
 
 %token             T_QUOTE                 "                        -> quoted
@@ -22,7 +23,7 @@
     ( fn() | expr() | assign() | str() )+
 
 #expr:
-    ( <T_NUMBER> | rvar() ) ( operator() expr() )?
+    ( <T_NUMBER> | <T_CONST> | rvar() | fn() ) ( operator() expr() )?
 
 #assign:
     lvar() ::T_OP_EQUAL:: rval()
@@ -49,8 +50,6 @@ operator:
     | <T_OP_DIVIDE>
 
 rval:
-      <T_NUMBER>
+      <T_CONST>
     | str()
-    | fn()
     | expr()
-    | rvar()
