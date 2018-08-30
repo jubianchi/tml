@@ -1,4 +1,4 @@
-# TML - Ten Minutes Language [![Build Status](https://travis-ci.org/jubianchi/tml.svg?branch=master)](https://travis-ci.org/jubianchi/tml)
+# TML - Ten Minutes Language [![Build Status](https://travis-ci.org/jubianchi/tml.svg?branch=master)](https://travis-ci.org/jubianchi/tml) [![Greenkeeper badge](https://badges.greenkeeper.io/jubianchi/tml.svg)](https://greenkeeper.io/)
 
 ![slides.001](slides/slides.001.png)
 
